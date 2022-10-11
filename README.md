@@ -1,5 +1,5 @@
 # ClearFill
-ClearFill is a python library you can use to fill a matrix using various predictions technique.
+ClearFill is a python library you can use to fill a matrix using various predictions techniques.
 
 # How it works
 ClearFill take in a numpy array matrix containing NaN and fill them with estimated value. For a demonstration simply look at test.py
