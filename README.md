@@ -7,7 +7,7 @@ ClearFill take in a numpy array matrix containing NaN and fill them with estimat
 # Available prediction methode
 - Linear regression
 - Nearest value
-- Slope One
+- Slope One (Fastest)
 - Weighted Slope One
 - Bipolar Slope One
 
