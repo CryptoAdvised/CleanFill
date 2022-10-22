@@ -1,3 +1,11 @@
+"""
+/******************************************************************************/
+/*FICHIER:      ClearFill.py                                                  */
+/*AUTEURS:      Colin Bouchard                       				          */
+/*DATE:         19/05/2020                                                    */
+/*DESCRIPTION:  Cette librarie permet de remplir les valeur NaN d'une matrie. */
+/******************************************************************************/
+"""
 from __future__ import division
 import numpy as np
 from scipy.interpolate import griddata
