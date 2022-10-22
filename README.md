@@ -13,6 +13,9 @@ ClearFill take in a numpy array matrix containing NaN and fill them with estimat
 - Weighted Slope One
 - Bipolar Slope One
 
+# Installation
+pip install CleanFill
+
 # Depedencies
 You'll need numpy and scipy installed in your venv to run this library.
 
