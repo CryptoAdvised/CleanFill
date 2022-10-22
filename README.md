@@ -1,6 +1,8 @@
 # CleanFill
 ClearFill is a python library you can use to fill NaN value in a matrix using various predictions techniques. This is useful in the context of collaborative filtering. It can be used to predict items rating in the context of recommendation engine. This code will fill NaN (Not A Number) with some predicted value according to the desired method of prediction. 
 
+Alot of time, part of the data is left unfilled. This is frustating as sometime you are force to dump alot of data because of missing values. But if you use a library like CLeanFill, you can avoid having to remove this potentially useful data.
+
 It's a simple data transformation tool.
 
 # How it works
