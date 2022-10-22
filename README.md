@@ -24,7 +24,7 @@ You'll need numpy and scipy installed in your venv to run this library.
 # Exemple for NaN as value
 ```
 import numpy as np
-from CleanFill import CleanFill
+from CleanFill import CleanFill as cf
 
 
 
@@ -36,10 +36,10 @@ my_data = np.array([[7, nan, 8, 7],
                     [2, nan, 2, 1]])
 
 
-print(CleanFill.fill_linear(my_data))
-print(CleanFill.fill_slope_one(my_data))
-print(CleanFill.fill_weighted_slope_one(my_data))
-print(CleanFill.fill_bipolar_slope_one(my_data))
+print(cf.fill_linear(my_data))
+print(cf.fill_slope_one(my_data))
+print(cf.fill_weighted_slope_one(my_data))
+print(cf.fill_bipolar_slope_one(my_data))
 ```
 
 # Exemple for 0 as value
@@ -55,9 +55,9 @@ my_data2 = np.array([[7, 0, 8, 7],
                     [2, 0, 2, 1]])
 
 
-my_data2 = CleanFill.ZeroToNaN(my_data2)
+my_data2 = cf.ZeroToNaN(my_data2)
 
-print(CleanFill.fill_linear(my_data2))
-print(CleanFill.fill_slope_one(my_data2))
-print(CleanFill.fill_weighted_slope_one(my_data2))
-print(CleanFill.fill_bipolar_slope_one(my_data2))
+print(cf.fill_linear(my_data2))
+print(cf.fill_slope_one(my_data2))
+print(cf.fill_weighted_slope_one(my_data2))
+print(cf.fill_bipolar_slope_one(my_data2))
