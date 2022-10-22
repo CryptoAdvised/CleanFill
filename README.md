@@ -45,7 +45,7 @@ print(cf.fill_bipolar_slope_one(my_data))
 # Exemple for 0 as value
 ```
 import numpy as np
-from CleanFill import CleanFill
+from CleanFill import CleanFill as cf
 
 
 my_data2 = np.array([[7, 0, 8, 7],
