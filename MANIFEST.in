@@ -1,0 +1,6 @@
+include setup.cfg
+include README.md
+include pyproject.toml
+include MANIFEST.in
+include LICENSE
+include .gitignore
