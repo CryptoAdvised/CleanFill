@@ -6,7 +6,7 @@ Alot of time, part of the data is left unfilled. This is frustating as sometime 
 It's a simple data transformation tool.
 
 # How it works
-ClearFill take in a numpy array matrix containing NaN and fill them with estimated value. For a demonstration simply look at test.py
+ClearFill take in a numpy array matrix containing NaN and fill them with estimated value. For a demonstration simply look at exemples down below.
 
 # Available prediction methode
 - Linear regression
