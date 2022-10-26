@@ -16,7 +16,7 @@ ClearFill take in a numpy array matrix containing NaN and fill them with estimat
 - Bipolar Slope One
 
 # Installation
-pip install CleanFill
+pip install cleanfill
 
 # Depedencies
 You'll need numpy and scipy installed in your venv to run this library.
