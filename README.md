@@ -55,7 +55,7 @@ my_data2 = np.array([[7, 0, 8, 7],
                     [2, 0, 2, 1]])
 
 
-my_data2 = CleanFill.ZeroToNaN(my_data2)
+my_data2 = fill.ZeroToNaN(my_data2)
 
 print(fill.linear(my_data2))
 print(fill.slope_one(my_data2))
