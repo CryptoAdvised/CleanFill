@@ -10,6 +10,7 @@
 from __future__ import division
 import numpy as np
 from scipy.interpolate import griddata
+import pandas as pd
 
 nan = np.NaN
 
@@ -17,31 +18,45 @@ nan = np.NaN
 
 def linear(in_data: object) -> object:
     """
-    Fill NaN values in the input array `indata`.
+    Fill NaN values in the input array `in_data`.
     """
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
 
     in_data = ZeroToNaN(in_data)
     # Find the non-NaN indices
 
     inds = np.nonzero(~np.isnan(in_data))
-    # Create an `out_inds` array that contains all of the indices of indata.
+    # Create an `out_inds` array that contains all of the indices of in_data.
     out_inds = np.mgrid[[slice(s) for s in in_data.shape]].reshape(in_data.ndim, -1).T
     # Perform the interpolation of the non-NaN values to all the indices in the array:
-    return griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
+        return df
+    else:
+        return griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
 
 def nearest(in_data: object) -> object:
     """
-    Fill NaN values in the input array `indata`.
+    Fill NaN values in the input array `in_data`.
     """
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
 
     in_data = ZeroToNaN(in_data)
     # Find the non-NaN indices
 
     inds = np.nonzero(~np.isnan(in_data))
-    # Create an `out_inds` array that contains all of the indices of indata.
+    # Create an `out_inds` array that contains all of the indices of in_data.
     out_inds = np.mgrid[[slice(s) for s in in_data.shape]].reshape(in_data.ndim, -1).T
     # Perform the interpolation of the non-NaN values to all the indices in the array:
-    return griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
+        return df
+    else:
+        return griddata(inds, in_data[inds], out_inds, method='linear').reshape(in_data.shape)
 
 """
 Slope One Predictor - Slope One, Weighted Slope One, Bi-polar Slope One
@@ -59,6 +74,10 @@ def slope_one(in_data: object) -> object:
     @param rating matrix
     @return predicted rating matrix
     """
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
+
     old_data = in_data
 
     in_data = NaNToZero(in_data)
@@ -105,7 +124,11 @@ def slope_one(in_data: object) -> object:
         for j in range(item_num):
             pred_mat[u][j] = (np.sum(dev[j][eval_row] + in_data[u][eval_row])) / len(eval_row)
     pred_mat = ReplaceWithOld(pred_mat, old_data)
-    return pred_mat
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=pred_mat
+        return df
+    else:
+        return pred_mat
 
 # weighted slope one
 def weighted_slope_one(in_data: object) -> object:
@@ -114,6 +137,9 @@ def weighted_slope_one(in_data: object) -> object:
     @param rating matrix
     @return predicted rating matrix
     """
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
 
     old_data = in_data
 
@@ -167,7 +193,11 @@ def weighted_slope_one(in_data: object) -> object:
                 (dev[j][eval_row] + in_data[u][eval_row]) * evaled_users_mat[j][eval_row]) / np.sum(
                 evaled_users_mat[j][eval_row])
     pred_mat = ReplaceWithOld(pred_mat, old_data)
-    return pred_mat
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=pred_mat
+        return df
+    else:
+        return pred_mat
 
 # bi-polar slope one
 def bipolar_slope_one(in_data: object) -> object:
@@ -176,6 +206,9 @@ def bipolar_slope_one(in_data: object) -> object:
     @param rating matrix
     @return predicted rating matrix
     """
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
 
     old_data = in_data
 
@@ -279,20 +312,44 @@ def bipolar_slope_one(in_data: object) -> object:
                                              evaled_dislike_users_mat[j][eval_dislike_row])
                 pred_mat[u][j] = nume / den
     pred_mat = ReplaceWithOld(pred_mat, old_data)
-    return pred_mat
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=pred_mat
+        return df
+    else:
+        return pred_mat
+
+def means(in_data):
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
+        df[list(df.select_dtypes(include=['float64']).columns)] = (slope_one(in_data) + weighted_slope_one(in_data) + bipolar_slope_one(in_data)) / 3
+        return df
+    else:
+        return (slope_one(in_data) + weighted_slope_one(in_data) + bipolar_slope_one(in_data)) / 3
 
 
+def ZeroToNaN(in_data):
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
+    in_data = in_data.astype('float')
+    in_data[in_data == 0] = nan
+    if 'df' in locals():
+        df[list(df.select_dtypes(include=['float64']).columns)]=in_data
+        return df
+    else:
+        return in_data
 
-
-
-
-def ZeroToNaN(indata):
-    indata = indata.astype('float')
-    indata[indata == 0] = nan
-    return indata
-
-def NaNToZero(indata):
-    return np.nan_to_num(indata, nan=0.0)
+def NaNToZero(in_data):
+    if isinstance(in_data, pd.DataFrame):
+        df=in_data
+        in_data=df.select_dtypes(include=['float64']).to_numpy()
+    if 'df' in locals():
+        print('df is in locals')
+        df[list(df.select_dtypes(include=['float64']).columns)]=np.nan_to_num(in_data, nan=0.0)
+        return df
+    else:
+        return np.nan_to_num(in_data, nan=0.0)
 
 def ReplaceWithOld(new_data, old_data):
     columns = old_data.shape[0]
