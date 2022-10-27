@@ -21,7 +21,7 @@ ClearFill take in a numpy array matrix containing NaN and fill them with estimat
 - ZeroToNaN
 
 # Installation
-pip install CleanFill
+pip install cleanfill
 
 # Depedencies
 You'll need numpy, scipy and pandas installed in your venv to run this library.
